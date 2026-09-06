@@ -33,7 +33,11 @@ async def init_db():
                 department=getattr(u, "department", u.department_name or ""),
                 role=u.role.value if hasattr(u.role, "value") else str(u.role),
                 is_active=u.is_active,
+<<<<<<< HEAD
                 verification_status="APPROVED" if u.is_active else getattr(u, "verification_status", u.status),
+=======
+                verification_status=getattr(u, "verification_status", u.status),
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
                 created_at=getattr(u, "created_at", "2026-09-05 10:00:00")
             )
             session.add(orm_user)

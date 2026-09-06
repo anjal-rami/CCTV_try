@@ -197,6 +197,7 @@ export interface PendingUser {
   created_at: string;
   user_status: string;
 }
+<<<<<<< HEAD
 
 export interface ApprovedUser {
   id: number | string;
@@ -211,3 +212,5 @@ export interface ApprovedUser {
   created_at?: string;
   approved_at?: string;
 }
+=======
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da

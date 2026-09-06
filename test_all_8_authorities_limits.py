@@ -124,7 +124,11 @@ def verify_all_authorities_limits():
     maint_key = next(k for k in tokens if "MAINTENANCE_OFFICER" in k)
     test_endpoint(maint_key, "GET", "/api/tickets", None, 200, "Fetch Maintenance Tickets")
     test_endpoint(maint_key, "POST", "/api/v1/watchlist", {"license_plate": "GJ01MNT000"}, 403, "BLOCKED: Watchlist Mutation")
+<<<<<<< HEAD
     test_endpoint(maint_key, "GET", "/api/stream/CAM-0001", None, 403, "BLOCKED: Surveillance Stream Access")
+=======
+    test_endpoint(maint_key, "GET", "/api/stream/CAM-0001", None, 200, "Fetch Maintenance Stream Spec")
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
 
     # --------------------------------------------------------------------------
     # AUTHORITY 7: TECHNICIAN
@@ -139,6 +143,7 @@ def verify_all_authorities_limits():
     test_endpoint(tech_key, "GET", "/api/v1/security/threat-meter", None, 403, "BLOCKED: Security Threat Meter")
 
     # --------------------------------------------------------------------------
+<<<<<<< HEAD
     # AUTHORITY 8: OPERATOR
     # --------------------------------------------------------------------------
     log("\n9. Verifying OPERATOR Limits (Masked Monitoring Only, AI/ANPR/Watchlist/Threat Blocked)...")
@@ -147,6 +152,16 @@ def verify_all_authorities_limits():
     test_endpoint(operator_key, "POST", "/api/v1/watchlist", {"license_plate": "GJ01OP000"}, 403, "BLOCKED: Watchlist Mutation")
     test_endpoint(operator_key, "GET", "/api/gap-analysis", None, 403, "BLOCKED: Gap Analysis Metrics")
     test_endpoint(operator_key, "GET", "/api/v1/security/threat-meter", None, 403, "BLOCKED: Security Threat Meter")
+=======
+    # AUTHORITY 8: VIEWER
+    # --------------------------------------------------------------------------
+    log("\n9. Verifying VIEWER Limits (Masked Monitoring Only, AI/ANPR/Watchlist/Tickets Blocked)...")
+    viewer_key = next(k for k in tokens if "VIEWER" in k)
+    test_endpoint(viewer_key, "GET", "/api/anpr/search?plate_number=GJ01", None, 403, "BLOCKED: ANPR Search")
+    test_endpoint(viewer_key, "POST", "/api/v1/watchlist", {"license_plate": "GJ01VIEW00"}, 403, "BLOCKED: Watchlist Mutation")
+    test_endpoint(viewer_key, "GET", "/api/gap-analysis", None, 403, "BLOCKED: Gap Analysis Metrics")
+    test_endpoint(viewer_key, "GET", "/api/v1/security/threat-meter", None, 403, "BLOCKED: Security Threat Meter")
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
 
     log("\n==========================================================================")
     log("ALL 8 AUTHORITIES ARE CONFIRMED OPERATING STRICTLY WITHIN AUTHORIZATION LIMITS!")

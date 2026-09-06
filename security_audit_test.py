@@ -74,7 +74,11 @@ def run_security_audit():
     
     # Authorized Roles: SUPER_ADMIN, AI_ANALYST, Police DEPARTMENT_ADMIN
     auth_roles_for_watchlist = ["SUPER_ADMIN", "AI_ANALYST"]
+<<<<<<< HEAD
     unauth_roles_for_watchlist = ["TECHNICIAN", "MAINTENANCE_OFFICER", "SECURITY_ADMIN", "GIS_OPERATOR", "OPERATOR"]
+=======
+    unauth_roles_for_watchlist = ["TECHNICIAN", "MAINTENANCE_OFFICER", "SECURITY_ADMIN", "GIS_OPERATOR", "VIEWER"]
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
 
     # Test Authorized Watchlist Addition
     super_admin_hdr = {"Authorization": f"Bearer {tokens['SUPER_ADMIN']}"}

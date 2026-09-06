@@ -149,6 +149,7 @@ async def test_dashboard_summary_and_pending_counter(client: AsyncClient):
     count_res = await client.get("/api/v1/admin/users/pending/count")
     assert count_res.status_code == 200
     assert count_res.json()["pending_count"] >= 3
+<<<<<<< HEAD
 
 @pytest.mark.anyio
 async def test_super_admin_fetches_approved_user_directory(client: AsyncClient):
@@ -230,3 +231,5 @@ async def test_clearance_approval_lifecycle_moves_user_to_approved_directory(cli
         user.status = "PENDING_APPROVAL"
         user.verification_status = "PENDING_APPROVAL"
 
+=======
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da

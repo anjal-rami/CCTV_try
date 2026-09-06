@@ -63,8 +63,11 @@ class User:
 
     @property
     def verification_status(self) -> str:
+<<<<<<< HEAD
         if self.status in ["ACTIVE", "APPROVED"] and self.is_active:
             return "APPROVED"
+=======
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
         return self.status
 
     @verification_status.setter

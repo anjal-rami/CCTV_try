@@ -1,8 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, and_, func
+<<<<<<< HEAD
 from typing import List, Optional, Any, Union
 from datetime import datetime
+=======
+from typing import List, Optional, Any
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
 from pydantic import BaseModel
 
 from app.db.session import get_db
@@ -12,6 +16,7 @@ from app.core.security import get_current_active_user
 
 router = APIRouter(prefix="/api/v1/admin/users", tags=["User Approvals"])
 
+<<<<<<< HEAD
 class ApprovedUserOut(BaseModel):
     id: Union[int, str]
     username: str
@@ -28,6 +33,8 @@ class ApprovedUserOut(BaseModel):
     class Config:
         from_attributes = True
 
+=======
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
 class ApprovalActionRequest(BaseModel):
     action: str  # "APPROVE" or "REJECT"
     assigned_role: str = "OPERATOR"  # Can elevate if necessary
@@ -83,6 +90,7 @@ async def get_pending_registrations_count(
     count = len(result.scalars().all())
     return {"pending_count": count}
 
+<<<<<<< HEAD
 # 3. Fetch Approved Active Personnel Directory
 @router.get("/approved", response_model=List[ApprovedUserOut])
 async def get_approved_users(
@@ -126,6 +134,8 @@ async def get_approved_users(
         for u in approved_users
     ]
 
+=======
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
 # 3. Approve or Reject Account
 @router.patch("/{user_id}/clearance")
 async def process_user_clearance(
