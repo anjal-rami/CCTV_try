@@ -6,7 +6,7 @@ Compliant with Ponytail Rule 5: Model 3 Federation & Secrets Governance.
 import os
 import base64
 from typing import Optional
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM  # type: ignore
 
 # 256-bit key (32 bytes) derived from platform master secret or environment variable
 _RAW_KEY = os.environ.get("VMS_VAULT_AES_KEY", "GUJARAT-CCTV-FEDERATION-256BIT-AES-KEY-2026").encode("utf-8")
