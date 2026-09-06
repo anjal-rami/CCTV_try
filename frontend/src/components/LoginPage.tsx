@@ -9,7 +9,6 @@ import {
   Users
 } from 'lucide-react';
 import { User, UserRole } from '../types';
-<<<<<<< HEAD
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -35,8 +34,6 @@ export function getHomeDirectoryForRole(role: string): string {
       return "/dashboard";
   }
 }
-=======
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
 
 interface RoleAccountRef {
   role: string;
@@ -99,21 +96,14 @@ export const AccountDirectoryPanel: React.FC = () => {
 };
 
 interface LoginPageProps {
-<<<<<<< HEAD
   onLoginSuccess?: (user: User, token?: string) => void;
-=======
-  onLoginSuccess: (user: User, token?: string) => void;
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
   onNavigateToRegister?: () => void;
 }
 
 export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onNavigateToRegister }) => {
-<<<<<<< HEAD
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-=======
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
   const [handle, setHandle] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -141,12 +131,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onNavigate
       }
 
       const data = await res.json();
-<<<<<<< HEAD
       let authenticatedUser: User;
       let activeToken: string;
 
-=======
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
       if (data.mfa_required) {
         // Automatically verify MFA code for demo evaluation
         const mfaRes = await fetch('/api/v1/auth/verify-mfa', {
@@ -155,11 +142,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onNavigate
           body: JSON.stringify({ temp_token: data.temp_mfa_token, totp_code: '123456' })
         });
         const mfaData = await mfaRes.json();
-<<<<<<< HEAD
         authenticatedUser = {
-=======
-        const authenticatedUser: User = {
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
           id: mfaData.user.id,
           username: mfaData.user.username,
           name: mfaData.user.name,
@@ -170,7 +153,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onNavigate
           departmentName: mfaData.user.department_name,
           badgeCode: mfaData.user.badge_code
         };
-<<<<<<< HEAD
         activeToken = mfaData.access_token;
       } else {
         authenticatedUser = {
@@ -193,24 +175,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onNavigate
       }
       const from = (location.state as any)?.from?.pathname;
       navigate(from || getHomeDirectoryForRole(authenticatedUser.role), { replace: true });
-=======
-        onLoginSuccess(authenticatedUser, mfaData.access_token);
-        return;
-      }
-
-      const authenticatedUser: User = {
-        id: data.user.id,
-        username: data.user.username,
-        name: data.user.name,
-        email: data.user.email,
-        role: data.user.role as UserRole,
-        roleTitle: data.user.role_title,
-        departmentId: data.user.department_id,
-        departmentName: data.user.department_name,
-        badgeCode: data.user.badge_code
-      };
-      onLoginSuccess(authenticatedUser, data.access_token);
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
     } catch (err: any) {
       setError(err.message || 'Invalid username or password.');
     } finally {
@@ -322,7 +286,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onNavigate
 
           <div className="border-t border-slate-800/80 pt-4 text-center text-[11px] text-slate-500 space-y-2">
             <div>Protected by State Cyber Security Directorate • Audit Logs Active</div>
-<<<<<<< HEAD
             <div>
               <button
                 type="button"
@@ -332,19 +295,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onNavigate
                 Need an observer account? Register here
               </button>
             </div>
-=======
-            {onNavigateToRegister && (
-              <div>
-                <button
-                  type="button"
-                  onClick={onNavigateToRegister}
-                  className="text-xs text-cyan-400 hover:text-cyan-300 hover:underline font-mono transition"
-                >
-                  Need an observer account? Register here
-                </button>
-              </div>
-            )}
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
           </div>
         </div>
 
