@@ -142,7 +142,7 @@ def verify_all_authorities_limits():
     # AUTHORITY 8: OPERATOR
     # --------------------------------------------------------------------------
     log("\n9. Verifying OPERATOR Limits (Masked Monitoring Only, AI/ANPR/Watchlist/Threat Blocked)...")
-    operator_key = next(k for k in tokens if "OPERATOR" in k)
+    operator_key = next(k for k in tokens if tokens[k]["role"] == "OPERATOR")
     test_endpoint(operator_key, "GET", "/api/anpr/search?plate_number=GJ01", None, 403, "BLOCKED: ANPR Search")
     test_endpoint(operator_key, "POST", "/api/v1/watchlist", {"license_plate": "GJ01OP000"}, 403, "BLOCKED: Watchlist Mutation")
     test_endpoint(operator_key, "GET", "/api/gap-analysis", None, 403, "BLOCKED: Gap Analysis Metrics")
