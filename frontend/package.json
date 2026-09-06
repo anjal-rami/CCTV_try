@@ -11,14 +11,20 @@
   },
   "dependencies": {
     "@types/react-leaflet": "^2.8.3",
+<<<<<<< HEAD
     "axios": "^1.20.0",
+=======
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
     "clsx": "^2.1.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.41.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-leaflet": "^5.0.0",
+<<<<<<< HEAD
     "react-router-dom": "^7.18.3",
+=======
+>>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
     "recharts": "^3.10.1",
     "tailwind-merge": "^3.6.0"
   },
