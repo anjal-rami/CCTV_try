@@ -155,13 +155,19 @@ export const VideoWall: React.FC<VideoWallProps> = ({ cameras }) => {
             className="relative bg-black rounded-lg border border-slate-800 overflow-hidden group flex flex-col justify-between"
           >
             {/* Live Video Element */}
-            <video 
-              src={cam.stream_url}
-              autoPlay
-              loop
-              muted={isMuted}
-              className="w-full h-full object-cover"
-            />
+            {cam?.stream_url ? (
+              <video 
+                src={cam.stream_url}
+                autoPlay
+                loop
+                muted={isMuted}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-slate-900/80 text-slate-500 font-mono text-[10px]">
+                FEED UNAVAILABLE
+              </div>
+            )}
 
             {/* AI Bounding Box Overlay Simulation */}
             <div className="absolute top-1/3 left-1/4 w-28 h-20 border-2 border-cyan-400/80 rounded bg-cyan-400/10 pointer-events-none flex items-start p-1">

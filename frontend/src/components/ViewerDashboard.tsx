@@ -91,13 +91,19 @@ export const ViewerDashboard: React.FC<ViewerDashboardProps> = ({ cameras }) => 
         {displayCameras.map((cam) => (
           <div key={cam.id} className="relative bg-black rounded-xl border border-slate-800 overflow-hidden flex flex-col justify-between group">
             {/* Video Stream */}
-            <video 
-              src={cam.stream_url} 
-              autoPlay 
-              loop 
-              muted 
-              className="w-full h-full object-cover"
-            />
+            {cam?.stream_url ? (
+              <video 
+                src={cam.stream_url} 
+                autoPlay 
+                loop 
+                muted 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-slate-900/80 text-slate-500 font-mono text-xs">
+                NO FEED AVAILABLE
+              </div>
+            )}
 
             {/* Privacy Redaction Blur Overlays (Faces & Plates) */}
             {isPrivacyMaskEnabled && (

@@ -553,11 +553,17 @@ export const AnprTracker: React.FC<AnprTrackerProps> = ({ currentUser }) => {
             {selectedWaypoint ? (
               <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-4 shadow-lg flex flex-col md:flex-row items-center gap-4">
                 <div className="w-full md:w-64 h-36 bg-black rounded-lg border border-slate-800 overflow-hidden relative flex-shrink-0">
-                  <img 
-                    src={selectedWaypoint.snapshot_url || 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=500&auto=format&fit=crop&q=60'} 
-                    alt="ANPR Visual Evidence Frame"
-                    className="w-full h-full object-cover" 
-                  />
+                  {selectedWaypoint?.snapshot_url ? (
+                    <img 
+                      src={selectedWaypoint.snapshot_url} 
+                      alt="ANPR Visual Evidence Frame"
+                      className="w-full h-full object-cover" 
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-[10px] font-mono text-slate-500">
+                      NO SNAPSHOT AVAILABLE
+                    </div>
+                  )}
                   <div className="absolute top-2 left-2 bg-slate-950/80 px-2 py-0.5 rounded text-[10px] font-mono text-cyan-400 border border-slate-800">
                     EVIDENCE SNAPSHOT
                   </div>

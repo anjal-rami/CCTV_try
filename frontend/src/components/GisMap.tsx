@@ -296,13 +296,19 @@ export const GisMap: React.FC<GisMapProps> = ({ departments }) => {
 
           {/* Simulated HLS Video Player */}
           <div className="relative aspect-video bg-black rounded-lg overflow-hidden border border-slate-800 flex items-center justify-center">
-            <video 
-              src={selectedCam.stream_url} 
-              autoPlay 
-              loop 
-              muted 
-              className="w-full h-full object-cover"
-            />
+            {selectedCam?.stream_url ? (
+              <video 
+                src={selectedCam.stream_url} 
+                autoPlay 
+                loop 
+                muted 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-slate-500 font-mono text-xs">
+                NO STREAM CONFIGURED
+              </div>
+            )}
             <div className="absolute top-2 left-2 bg-red-600/80 text-white font-mono text-[9px] px-2 py-0.5 rounded flex items-center space-x-1">
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
               <span>LIVE BROKERED FEED</span>

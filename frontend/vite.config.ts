@@ -9,10 +9,18 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tailwindcss()],
+    base: '/',
     server: {
       host: true,
       port: 5173,
+      strictPort: false,
       allowedHosts: true,
+      hmr: {
+        overlay: false // Disables the full-screen red error overlay
+      },
+      watch: {
+        usePolling: true
+      },
       proxy: {
         '/api': {
           target: apiUrl,
