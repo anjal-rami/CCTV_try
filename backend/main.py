@@ -361,6 +361,7 @@ def get_approved_users_backend(user: Optional[Dict[str, Any]] = Depends(require_
         )
         for u in approved_users
     ]
+
 @app.get("/api/v1/dashboard/summary")
 def get_dashboard_summary(user: Optional[Dict[str, Any]] = Depends(get_current_user)):
     role = user.get("role") if user else None

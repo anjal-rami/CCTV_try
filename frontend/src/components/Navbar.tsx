@@ -61,11 +61,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         { id: 'dashboard', label: 'Command Dashboard', icon: LayoutDashboard },
         { 
           id: 'approvals', 
-<<<<<<< HEAD
           label: 'User Management & Directory', 
-=======
-          label: 'User Approvals', 
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
           icon: UserCheck,
           badge: pendingApprovalsCount > 0 ? `Users [ ${pendingApprovalsCount} Pending ]` : 'Users [ 0 Pending ]'
         },
@@ -89,11 +85,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         { id: 'dept_admin', label: 'Department Command', icon: Building2 },
         { 
           id: 'approvals', 
-<<<<<<< HEAD
           label: 'User Management & Directory', 
-=======
-          label: 'User Approvals', 
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
           icon: UserCheck,
           badge: pendingApprovalsCount > 0 ? `Users [ ${pendingApprovalsCount} Pending ]` : undefined
         },

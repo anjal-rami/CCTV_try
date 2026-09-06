@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD
 import { useNavigate } from 'react-router-dom';
-=======
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
 import { 
   ShieldCheck, 
   User as UserIcon, 
@@ -45,18 +42,11 @@ const DEPARTMENTS_LIST = [
 ];
 
 interface RegisterPageProps {
-<<<<<<< HEAD
   onNavigateToLogin?: () => void;
 }
 
 export const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigateToLogin }) => {
   const navigate = useNavigate();
-=======
-  onNavigateToLogin: () => void;
-}
-
-export const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigateToLogin }) => {
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
   const [fullName, setFullName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -153,15 +143,11 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigateToLogin })
       setConfirmPassword('');
 
       setTimeout(() => {
-<<<<<<< HEAD
         if (onNavigateToLogin) {
           onNavigateToLogin();
         } else {
           navigate('/login');
         }
-=======
-        onNavigateToLogin();
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
       }, 2000);
     } catch (err: any) {
       setError(err.message || 'Registration failed. Please check your details.');
@@ -402,11 +388,7 @@ export const RegisterPage: React.FC<RegisterPageProps> = ({ onNavigateToLogin })
           <div className="border-t border-slate-800/80 pt-4 text-center">
             <button
               type="button"
-<<<<<<< HEAD
               onClick={onNavigateToLogin || (() => navigate('/login'))}
-=======
-              onClick={onNavigateToLogin}
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
               className="text-xs text-cyan-400 hover:text-cyan-300 hover:underline transition font-mono"
             >
               Already registered? Log in here

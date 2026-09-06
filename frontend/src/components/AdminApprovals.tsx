@@ -12,17 +12,11 @@ import {
   UserX,
   AlertTriangle,
   ChevronRight,
-<<<<<<< HEAD
   Filter,
   Users
 } from 'lucide-react';
 import { User, PendingUser } from '../types';
 import { ApprovedUsersPanel } from './ApprovedUsersPanel';
-=======
-  Filter
-} from 'lucide-react';
-import { User, PendingUser } from '../types';
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
 
 interface AdminApprovalsProps {
   currentUser: User;
@@ -35,11 +29,8 @@ export const AdminApprovals: React.FC<AdminApprovalsProps> = ({
   onClearanceProcessed,
   onNavigateToDashboard
 }) => {
-<<<<<<< HEAD
   const [activeSubTab, setActiveSubTab] = useState<'pending' | 'approved'>('pending');
   const [approvedRefreshTrigger, setApprovedRefreshTrigger] = useState<number>(0);
-=======
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
   const [pendingUsers, setPendingUsers] = useState<PendingUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
@@ -113,14 +104,9 @@ export const AdminApprovals: React.FC<AdminApprovalsProps> = ({
       });
 
       if (response.ok) {
-<<<<<<< HEAD
         // Instantly remove approved user from local pending list and refresh approved staff directory
         setPendingUsers(prev => prev.filter(u => u.id !== user.id));
         setApprovedRefreshTrigger(prev => prev + 1);
-=======
-        // Instantly remove approved user from local pending list
-        setPendingUsers(prev => prev.filter(u => u.id !== user.id));
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
         setNotification({
           type: 'success',
           message: `Clearance Granted: ${user.full_name} (${user.email}) approved as ${assignedRole}. User can now log in immediately.`
@@ -271,7 +257,6 @@ export const AdminApprovals: React.FC<AdminApprovalsProps> = ({
         </div>
       </div>
 
-<<<<<<< HEAD
       {/* Sub-Tabs: Pending Approvals Queue vs Active Staff Directory */}
       <div className="flex border-b border-slate-800 space-x-2">
         <button
@@ -307,9 +292,6 @@ export const AdminApprovals: React.FC<AdminApprovalsProps> = ({
       ) : (
         <>
           {/* Filter and Search Bar */}
-=======
-      {/* Filter and Search Bar */}
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
       <div className="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex flex-col md:flex-row items-center justify-between gap-3 shadow-md">
         <div className="relative w-full md:w-80">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
@@ -480,11 +462,8 @@ export const AdminApprovals: React.FC<AdminApprovalsProps> = ({
           </div>
         )}
       </div>
-<<<<<<< HEAD
         </>
       )}
-=======
->>>>>>> 8ba9ff981a3a31412079589b7b323d6b617498da
 
       {/* Rejection Modal */}
       {rejectionModalUser && (

@@ -27,6 +27,7 @@ class ApprovedUserOut(BaseModel):
 
     class Config:
         from_attributes = True
+
 class ApprovalActionRequest(BaseModel):
     action: str  # "APPROVE" or "REJECT"
     assigned_role: str = "OPERATOR"  # Can elevate if necessary
@@ -124,6 +125,7 @@ async def get_approved_users(
         )
         for u in approved_users
     ]
+
 # 3. Approve or Reject Account
 @router.patch("/{user_id}/clearance")
 async def process_user_clearance(

@@ -230,4 +230,3 @@ async def test_clearance_approval_lifecycle_moves_user_to_approved_directory(cli
         user.status = "PENDING_APPROVAL"
         user.verification_status = "PENDING_APPROVAL"
 
-
