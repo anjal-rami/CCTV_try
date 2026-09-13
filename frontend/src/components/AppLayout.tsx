@@ -39,7 +39,12 @@ const PATH_TO_TAB: Record<string, string> = {
   '/technician': 'technician_tasks',
   '/control-room': 'viewer_live',
   '/viewer_live': 'viewer_live',
-  '/gap': 'gap'
+  '/gap': 'gap',
+  '/cameras': 'cameras',
+  '/alerts': 'alerts',
+  '/analytics': 'analytics',
+  '/portal': 'portal',
+  '/vision': 'portal'
 };
 
 export function getHomeDirectoryForRole(role: string): string {
@@ -68,6 +73,7 @@ export function getHomeDirectoryForRole(role: string): string {
 export function isTabAllowedForRole(tab: string, user: User): boolean {
   const role = user.role;
   if (role === 'SUPER_ADMIN') return true;
+  if (['cameras', 'alerts', 'analytics', 'portal'].includes(tab)) return true;
 
   if (role === 'TECHNICIAN') return tab === 'technician_tasks';
   if (role === 'SECURITY_ADMIN') return ['security', 'dashboard', 'gap'].includes(tab);

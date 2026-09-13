@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { ReactLenis } from 'lenis/react';
+import Waves from './components/reactbits/Waves';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AppLayout, getHomeDirectoryForRole } from './components/AppLayout';
@@ -22,6 +24,10 @@ import { Maintenance } from './components/Maintenance';
 import { GapAnalysis } from './components/GapAnalysis';
 import { AdminApprovals } from './components/AdminApprovals';
 import { VmsFederation } from './components/VmsFederation';
+import CamerasPage from './pages/CamerasPage';
+import AlertsPage from './pages/AlertsPage';
+import AnalyticsPage from './pages/AnalyticsPage';
+import VisionPortal from './components/VisionPortal';
 
 import { Department, Camera, DashboardStats } from './types';
 
@@ -229,6 +235,11 @@ export const AppRoutes: React.FC = () => {
           <Route path="/ai/analytics" element={user ? <AnprTracker currentUser={user} /> : null} />
           <Route path="/maintenance" element={<Maintenance cameras={cameras} />} />
           <Route path="/gap" element={<GapAnalysis />} />
+          <Route path="/cameras" element={<CamerasPage />} />
+          <Route path="/alerts" element={<AlertsPage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/portal" element={<VisionPortal />} />
+          <Route path="/vision" element={<VisionPortal />} />
         </Route>
       </Route>
 
@@ -240,11 +251,23 @@ export const AppRoutes: React.FC = () => {
 
 export function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </AuthProvider>
+    <ReactLenis root options={{ lerp: 0.08, duration: 1.2, smoothWheel: true }}>
+      <div className="relative min-h-screen bg-neutral-950 text-neutral-100 overflow-x-hidden">
+        {/* Background WebGL Waves Container */}
+        <div className="fixed inset-0 z-0 opacity-40 pointer-events-none">
+          <Waves />
+        </div>
+
+        {/* Foreground Content */}
+        <div className="relative z-10">
+          <AuthProvider>
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </AuthProvider>
+        </div>
+      </div>
+    </ReactLenis>
   );
 }
 

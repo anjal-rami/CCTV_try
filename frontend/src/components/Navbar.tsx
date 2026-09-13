@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { 
   ShieldCheck, 
   ShieldAlert,
@@ -206,3 +207,74 @@ export const Navbar: React.FC<NavbarProps> = ({
     </header>
   );
 };
+
+export interface TabItem {
+  id: string;
+  label: string;
+  badge?: string;
+  alert?: boolean;
+}
+
+export interface AnimatedNavbarProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+  tabs?: TabItem[];
+}
+
+export default function AnimatedNavbar({
+  activeTab,
+  setActiveTab,
+  tabs = [
+    { id: 'cameras', label: 'Live Feeds', badge: '3' },
+    { id: 'alerts', label: 'Alerts & Rules', badge: '1', alert: true },
+    { id: 'analytics', label: 'Telemetry & Stats' },
+  ]
+}: AnimatedNavbarProps) {
+  return (
+    <nav className="sticky top-6 z-50 flex justify-center mb-10 px-4">
+      <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-neutral-900/80 border border-neutral-800/80 backdrop-blur-xl shadow-2xl">
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab.id;
+
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-200 outline-none select-none cursor-pointer ${
+                isActive ? 'text-white' : 'text-neutral-400 hover:text-neutral-200'
+              }`}
+            >
+              {/* Sliding Background Pill */}
+              {isActive && (
+                <motion.div
+                  layoutId="active-pill"
+                  className="absolute inset-0 rounded-xl bg-indigo-600/30 border border-indigo-500/50 shadow-inner"
+                  transition={{
+                    type: 'spring',
+                    stiffness: 380,
+                    damping: 30,
+                  }}
+                />
+              )}
+
+              {/* Tab Content */}
+              <span className="relative z-10">{tab.label}</span>
+
+              {tab.badge && (
+                <span
+                  className={`relative z-10 px-1.5 py-0.5 text-[10px] font-mono rounded-md ${
+                    tab.alert
+                      ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse'
+                      : 'bg-neutral-800 text-neutral-300 border border-neutral-700'
+                  }`}
+                >
+                  {tab.badge}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </nav>
+  );
+}

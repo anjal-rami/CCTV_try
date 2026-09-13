@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { DashboardStats } from '../types';
+import { SurveillanceHero } from './SurveillanceHero';
 
 interface DashboardProps {
   stats: DashboardStats | null;
@@ -31,6 +32,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ stats, onNavigate }) => {
 
   return (
     <div className="space-y-6">
+      {/* React Bits Animated Surveillance AI Vision Engine Hero */}
+      <SurveillanceHero />
+
       {/* High-Visibility Admin Clearance Alert Banner */}
       {pendingCount > 0 && (
         <div className="bg-gradient-to-r from-amber-950/90 via-amber-900/60 to-orange-950/90 border-2 border-amber-500/70 rounded-2xl p-4.5 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4 text-amber-200">
