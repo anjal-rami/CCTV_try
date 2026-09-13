@@ -60,6 +60,8 @@ class User:
     failed_login_attempts: int = 0
     locked_until: Optional[str] = None
     created_at: str = "2026-09-05 10:00:00"
+    approved_at: Optional[str] = None
+    rejected_at: Optional[str] = None
 
     @property
     def verification_status(self) -> str:

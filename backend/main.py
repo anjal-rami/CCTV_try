@@ -2,35 +2,68 @@
 FastAPI Main Application for Enterprise CCTV Registry, Federation & Analytics Platform.
 Includes 8 Authority RBAC Guards, MFA Totp Validation, Row-Level Security (RLS), and Security Admin Forensics.
 """
-from fastapi import FastAPI, HTTPException, Query, Body, Depends, Header, status, Request, Response
-from fastapi.middleware.cors import CORSMiddleware
+import sys
+from pathlib import Path
+
+# Ensure project root and backend directory are in sys.path and __package__ is set
+_BACKEND_DIR = Path(__file__).resolve().parent
+_PROJECT_ROOT = _BACKEND_DIR.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+if str(_BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(_BACKEND_DIR))
+if not __package__:
+    __package__ = "backend"
+
+from fastapi import FastAPI, HTTPException, Query, Body, Depends, Header, status, Request, Response  # type: ignore # pyrefly: ignore [missing-import]
+from fastapi.middleware.cors import CORSMiddleware  # type: ignore # pyrefly: ignore [missing-import]
 from typing import Optional, List, Dict, Any
 from dataclasses import asdict
 from datetime import datetime, timezone, timedelta
-from pydantic import BaseModel
+from pydantic import BaseModel  # type: ignore # pyrefly: ignore [missing-import]
 
-from .models import (
-    Department, Camera, AnprDetection, WatchlistItem,
-    MaintenanceTicket, AuditLog, CameraStatus, TicketStatus,
-    User, UserRole, SecurityThreatIncident, BlockedIpRecord,
-    VMSPlatform, FederatedEvent, CorrelatedIncident, WorkflowTask
-)
-from .seed_data import generate_seed_data, SEED_USERS, SEED_VMS_PLATFORMS
-from .spatial import haversine_distance_meters, calculate_fov_cone_coordinates
-from .ai_engine import reconstruct_vehicle_route, analyze_infrastructure_gaps, validate_bulk_csv_content
-from .stream_broker import get_vms_stream_details
-from .auth import authenticate_user, verify_mfa_code, decode_access_token, UserRegisterRequest, register_new_user
-from .security_engine import calculate_security_threat_score, SECURITY_INCIDENTS, BLOCKED_IPS, block_ip_address, is_ip_blocked
-from .permissions import (
-    Permission, require_permission, check_department_scope,
-    check_field_mutation_boundary, ROLE_PERMISSIONS_REGISTRY
-)
-from .crypto_vault import encrypt_vms_secret, decrypt_vms_secret
-from app.services.adapters.base import VMSAdapterFactory
-from app.core.event_bus import event_bus, TOPIC_DETECTIONS, TOPIC_CAMERA_STATUS, TOPIC_ALERTS, ALL_TOPICS
-from app.services.correlation_engine import correlation_engine
+try:
+    from backend.models import (
+        Department, Camera, AnprDetection, WatchlistItem,
+        MaintenanceTicket, AuditLog, CameraStatus, TicketStatus,
+        User, UserRole, SecurityThreatIncident, BlockedIpRecord,
+        VMSPlatform, FederatedEvent, CorrelatedIncident, WorkflowTask
+    )
+    from backend.seed_data import generate_seed_data, SEED_USERS, SEED_VMS_PLATFORMS
+    from backend.spatial import haversine_distance_meters, calculate_fov_cone_coordinates
+    from backend.ai_engine import reconstruct_vehicle_route, analyze_infrastructure_gaps, validate_bulk_csv_content
+    from backend.stream_broker import get_vms_stream_details
+    from backend.auth import authenticate_user, verify_mfa_code, decode_access_token, UserRegisterRequest, register_new_user
+    from backend.security_engine import calculate_security_threat_score, SECURITY_INCIDENTS, BLOCKED_IPS, block_ip_address, is_ip_blocked
+    from backend.permissions import (
+        Permission, require_permission, check_department_scope,
+        check_field_mutation_boundary, ROLE_PERMISSIONS_REGISTRY
+    )
+    from backend.crypto_vault import encrypt_vms_secret, decrypt_vms_secret
+except (ImportError, ValueError):
+    from .models import (  # type: ignore
+        Department, Camera, AnprDetection, WatchlistItem,
+        MaintenanceTicket, AuditLog, CameraStatus, TicketStatus,
+        User, UserRole, SecurityThreatIncident, BlockedIpRecord,
+        VMSPlatform, FederatedEvent, CorrelatedIncident, WorkflowTask
+    )
+    from .seed_data import generate_seed_data, SEED_USERS, SEED_VMS_PLATFORMS  # type: ignore
+    from .spatial import haversine_distance_meters, calculate_fov_cone_coordinates  # type: ignore
+    from .ai_engine import reconstruct_vehicle_route, analyze_infrastructure_gaps, validate_bulk_csv_content  # type: ignore
+    from .stream_broker import get_vms_stream_details  # type: ignore
+    from .auth import authenticate_user, verify_mfa_code, decode_access_token, UserRegisterRequest, register_new_user  # type: ignore
+    from .security_engine import calculate_security_threat_score, SECURITY_INCIDENTS, BLOCKED_IPS, block_ip_address, is_ip_blocked  # type: ignore
+    from .permissions import (  # type: ignore
+        Permission, require_permission, check_department_scope,
+        check_field_mutation_boundary, ROLE_PERMISSIONS_REGISTRY
+    )
+    from .crypto_vault import encrypt_vms_secret, decrypt_vms_secret  # type: ignore
+
+from app.services.adapters.base import VMSAdapterFactory  # type: ignore # pyrefly: ignore [missing-import]
+from app.core.event_bus import event_bus, TOPIC_DETECTIONS, TOPIC_CAMERA_STATUS, TOPIC_ALERTS, ALL_TOPICS  # type: ignore # pyrefly: ignore [missing-import]
+from app.services.correlation_engine import correlation_engine  # type: ignore # pyrefly: ignore [missing-import]
 # pyrefly: ignore [missing-import]
-import rule_engine
+import rule_engine  # type: ignore
 
 # ==============================================================================
 # DECLARATIVE RULE ENGINE STANDARD SPECIFICATIONS (Ponytail Governance Compliant)
@@ -169,7 +202,7 @@ def validate_watchlist_mutation(user: Optional[Dict[str, Any]]) -> Dict[str, Any
             timestamp=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
             user_id=user.get("sub", "unknown"),
             user_name=user.get("name", "Unknown User"),
-            role=role,
+            role=str(role or "UNKNOWN"),
             action_type="WATCHLIST_MUTATION_DENIED",
             previous_state=None,
             new_state=None,
@@ -894,8 +927,8 @@ def bulk_commit_cameras(valid_rows: List[Dict[str, Any]] = Body(..., embed=True)
     now = datetime.now(timezone.utc)
     for row in valid_rows:
         dept_id = row.get("dept_id", "DEPT-01")
-        check_department_scope(user, dept_id)
-        check_field_mutation_boundary(user, row)
+        check_department_scope(user or {}, dept_id)
+        check_field_mutation_boundary(user or {}, row)
         new_id = f"CAM-{len(CAMERAS)+1:04d}"
         c = Camera(
             id=new_id,
@@ -1051,7 +1084,7 @@ def validate_anpr_access(user: Optional[Dict[str, Any]], target_param: Optional[
             timestamp=datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
             user_id=actor_id,
             user_name=actor_name,
-            role=role,
+            role=str(role or "UNKNOWN"),
             action_type="ILLEGAL_SURVEILLANCE_QUERY_ATTEMPT",
             previous_state=None,
             new_state=target_str,
