@@ -15,6 +15,9 @@ if str(_BACKEND_DIR) not in sys.path:
 if not __package__:
     __package__ = "backend"
 
+from dotenv import load_dotenv  # type: ignore # pyrefly: ignore [missing-import]
+load_dotenv(_PROJECT_ROOT / ".env")
+
 from fastapi import FastAPI, HTTPException, Query, Body, Depends, Header, status, Request, Response  # type: ignore # pyrefly: ignore [missing-import]
 from fastapi.middleware.cors import CORSMiddleware  # type: ignore # pyrefly: ignore [missing-import]
 from typing import Optional, List, Dict, Any
@@ -116,6 +119,24 @@ DEPARTMENTS, CAMERAS, ANPR_DETECTIONS, WATCHLIST, TICKETS, AUDIT_LOGS = generate
 VMS_PLATFORMS: List[VMSPlatform] = [
     VMSPlatform(**asdict(p)) if hasattr(p, '__dataclass_fields__') else p for p in SEED_VMS_PLATFORMS
 ]
+
+# ----------------------------------------------------
+# Modular AI Service Routers (Intel OpenVINO LPR)
+# ----------------------------------------------------
+try:
+    from app.routers.ai import router as lpr_router  # type: ignore # pyrefly: ignore [missing-import]
+    app.include_router(lpr_router, prefix="/api/v1/ai/lpr", tags=["AI License Plate Recognition"])
+    app.include_router(lpr_router, prefix="/api/lpr", tags=["AI License Plate Recognition"])
+except Exception as _e:
+    print(f"[Warning] Failed to mount LPR AI router: {_e}")
+
+try:
+    from app.routers.supabase_router import router as supabase_router  # type: ignore # pyrefly: ignore [missing-import]
+    app.include_router(supabase_router, prefix="/api/v1/supabase", tags=["Supabase Database Integration"])
+    app.include_router(supabase_router, prefix="/api/supabase", tags=["Supabase Database Integration"])
+except Exception as _e:
+    print(f"[Warning] Failed to mount Supabase router: {_e}")
+
 
 # ----------------------------------------------------
 # RBAC Authorization Dependency & Audit Logger

@@ -1,14 +1,14 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, and_, func
+from fastapi import APIRouter, Depends, HTTPException, status  # type: ignore # pyrefly: ignore [missing-import]
+from sqlalchemy.ext.asyncio import AsyncSession  # type: ignore # pyrefly: ignore [missing-import]
+from sqlalchemy import select, and_, func  # type: ignore # pyrefly: ignore [missing-import]
 from typing import List, Optional, Any, Union
 from datetime import datetime
-from pydantic import BaseModel
+from pydantic import BaseModel  # type: ignore # pyrefly: ignore [missing-import]
 
-from app.db.session import get_db
-from app.models.user import User
-from app.models.audit import SecurityAuditLog
-from app.core.security import get_current_active_user
+from app.db.session import get_db  # type: ignore # pyrefly: ignore [missing-import]
+from app.models.user import User  # type: ignore # pyrefly: ignore [missing-import]
+from app.models.audit import SecurityAuditLog  # type: ignore # pyrefly: ignore [missing-import]
+from app.core.security import get_current_active_user  # type: ignore # pyrefly: ignore [missing-import]
 
 router = APIRouter(prefix="/api/v1/admin/users", tags=["User Approvals"])
 

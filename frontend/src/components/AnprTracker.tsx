@@ -3,22 +3,15 @@ import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-
 import L from 'leaflet';
 import { 
   Scan, 
-  Search, 
   ShieldAlert, 
-  MapPin, 
-  Clock, 
   Plus, 
   CheckCircle2, 
-  Play, 
   Navigation,
-  Car,
-  AlertTriangle,
-  Layers,
-  ChevronRight,
-  Database
+  AlertTriangle
 } from 'lucide-react';
 import { WatchlistItem, RouteSearchResult, RouteWaypoint, User } from '../types';
 import { ErrorBoundary } from './ErrorBoundary';
+import { IntelLprScanner } from './IntelLprScanner';
 
 function MapResizeController() {
   const map = useMap();
@@ -189,7 +182,6 @@ export const AnprTracker: React.FC<AnprTrackerProps> = ({ currentUser }) => {
   // PonyTail Rule 3: Defensive State Initialization Defaults (Always default arrays to [])
   const [detections, setDetections] = useState<any[]>([]);
   const [trajectory, setTrajectory] = useState<RouteWaypoint[]>([]);
-  const [cameras, setCameras] = useState<any[]>([]);
   const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
 
   // ANPR Route Reconstruction State
@@ -391,6 +383,14 @@ export const AnprTracker: React.FC<AnprTrackerProps> = ({ currentUser }) => {
             )}
           </div>
         </div>
+
+        {/* Intel OpenVINO License Plate Recognition (LPR) Scanner */}
+        <IntelLprScanner 
+          onTraceRoute={(plate) => {
+            setSearchPlate(plate);
+            handleRouteSearch(plate);
+          }}
+        />
 
         {/* Main ANPR Route Reconstruction Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -691,6 +691,19 @@ export const AnprTracker: React.FC<AnprTrackerProps> = ({ currentUser }) => {
                   <option value="Wanted Suspect">Wanted Suspect</option>
                   <option value="Blacklisted Truck">Blacklisted Truck</option>
                   <option value="Missing Person">Missing Person</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs text-slate-300 block mb-1">Severity</label>
+                <select 
+                  value={newSeverity}
+                  onChange={(e) => setNewSeverity(e.target.value)}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white"
+                >
+                  <option value="Critical">Critical</option>
+                  <option value="High">High</option>
+                  <option value="Warning">Warning</option>
                 </select>
               </div>
 

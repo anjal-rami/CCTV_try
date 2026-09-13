@@ -1,0 +1,16 @@
+# CCTV Platform Dependencies
+fastapi>=0.115.0
+uvicorn>=0.30.0
+supabase>=2.31.0
+python-dotenv>=1.0.0
+pydantic>=2.10.0
+sqlalchemy>=2.0.0
+aiosqlite>=0.20.0
+pyjwt>=2.8.0
+passlib>=1.7.4
+openvino>=2024.0.0
+opencv-python-headless>=4.8.0
+numpy>=1.24.0
+pytest>=8.0.0
+httpx>=0.27.0
+rule-engine>=4.5.0

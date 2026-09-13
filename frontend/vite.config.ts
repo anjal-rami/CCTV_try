@@ -26,6 +26,16 @@ export default defineConfig(({ mode }) => {
           target: apiUrl,
           changeOrigin: true,
           secure: false,
+        },
+        '/docs': {
+          target: apiUrl,
+          changeOrigin: true,
+          secure: false,
+        },
+        '/openapi.json': {
+          target: apiUrl,
+          changeOrigin: true,
+          secure: false,
         }
       }
     }
